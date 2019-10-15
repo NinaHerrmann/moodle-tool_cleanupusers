@@ -250,7 +250,8 @@ class userstatuswwu implements userstatusinterface {
         $sql = 'SELECT u.id, u.lastaccess, u.deleted, u.suspended, u.username
         FROM {user} u
         LEFT JOIN {tool_cleanupusers} t_u ON u.id = t_u.id
-        WHERE t_u.id IS NULL AND u.lastaccess=0 AND u.deleted=0 AND u.firstname!=\'Anonym\' AND u.auth=:method';
+        WHERE t_u.id IS NULL AND u.lastaccess=0 AND u.deleted=0 AND u.firstname!=\'Anonym\' AND u.auth=:method AND u.username NOT LIKE :emailsign';
+        $params['emailsign'] = '%@%';
         $params['method'] = 'ldap';
         $users = $DB->get_records_sql($sql, $params);
         $admins = get_admins();
@@ -308,7 +309,8 @@ class userstatuswwu implements userstatusinterface {
         $sql = 'SELECT u.id, u.lastaccess, u.deleted, u.suspended, u.username
         FROM {user} u
         LEFT JOIN {tool_cleanupusers} t_u ON u.id = t_u.id
-        WHERE t_u.id IS NULL AND u.lastaccess!=0 AND u.deleted=0 AND u.auth=:method';
+        WHERE t_u.id IS NULL AND u.lastaccess!=0 AND u.deleted=0 AND u.auth=:method u.username AND u.username NOT LIKE :emailsign';
+        $params['emailsign'] = '%@%';
         $params['method'] = 'ldap';
         return $DB->get_records_sql($sql, $params);
     }
