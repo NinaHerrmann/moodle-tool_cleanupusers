@@ -193,6 +193,8 @@ class userstatuswwu implements userstatusinterface {
                         case 'y5lwext':
                         case 'y1moodle':
                         case 'b5lwmw':
+                        case 'k5gmlw':
+                        case 'd0dkab':
                             $currentname = $currentstring[0];
                             $zivuserarray[$currentname] = true;
                             break;
