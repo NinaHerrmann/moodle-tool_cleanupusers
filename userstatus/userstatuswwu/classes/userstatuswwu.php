@@ -250,7 +250,7 @@ class userstatuswwu implements userstatusinterface {
         LEFT JOIN {tool_cleanupusers} t_u ON u.id = t_u.id
         WHERE t_u.id IS NULL AND u.lastaccess=0 AND u.deleted=0 AND u.firstname!=\'Anonym\' AND u.auth=:method';
         $params['method'] = 'ldap';
-        $users = $DB->get_records_sql($sql,$params);
+        $users = $DB->get_records_sql($sql, $params);
         $admins = get_admins();
 
         foreach ($users as $moodleuser) {
@@ -308,7 +308,7 @@ class userstatuswwu implements userstatusinterface {
         LEFT JOIN {tool_cleanupusers} t_u ON u.id = t_u.id
         WHERE t_u.id IS NULL AND u.lastaccess!=0 AND u.deleted=0 AND u.auth=:method';
         $params['method'] = 'ldap';
-        return $DB->get_records_sql($sql,$params);
+        return $DB->get_records_sql($sql, $params);
     }
 
     /**
