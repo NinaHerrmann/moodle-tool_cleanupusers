@@ -120,7 +120,7 @@ class userstatus_userstatuswwu_testcase extends advanced_testcase {
         $this->assertArrayNotHasKey($data['manuallogin']->id, $returnneverloggedin);
         $this->assertArrayNotHasKey($data['manuallogin']->id, $returntoactivate);
 
-        //  with@sign has a @ sign in the username and is therefore ignored.
+        // with@sign has a @ sign in the username and is therefore ignored.
         $this->assertArrayNotHasKey($data['with@sign']->id, $returndelete);
         $this->assertArrayNotHasKey($data['with@sign']->id, $returnsuspend);
         $this->assertArrayNotHasKey($data['with@sign']->id, $returnneverloggedin);
