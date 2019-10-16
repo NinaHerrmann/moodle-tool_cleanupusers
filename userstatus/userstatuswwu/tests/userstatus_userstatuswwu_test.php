@@ -114,6 +114,12 @@ class userstatus_userstatuswwu_testcase extends advanced_testcase {
         $this->assertArrayNotHasKey($data['d_me09']->id, $returnneverloggedin);
         $this->assertArrayNotHasKey($data['d_me09']->id, $returntoactivate);
 
+        // manuallogin has the authentification method manual therefore he/she is not considered.
+        $this->assertArrayNotHasKey($data['manuallogin']->id, $returndelete);
+        $this->assertArrayNotHasKey($data['manuallogin']->id, $returnsuspend);
+        $this->assertArrayNotHasKey($data['manuallogin']->id, $returnneverloggedin);
+        $this->assertArrayNotHasKey($data['manuallogin']->id, $returntoactivate);
+
         $this->setAdminUser();
         $this->assertArrayNotHasKey($USER->id, $returnsuspend);
         $this->assertArrayNotHasKey($USER->id, $returnneverloggedin);
