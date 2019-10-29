@@ -27,11 +27,15 @@ defined('MOODLE_INTERNAL') || die();
 class users_table extends \table_sql {
 
     /**
-     * Constructor
-     * @param int $uniqueid all tables have to have a unique id, this is used
-     *      as a key when storing table properties like sort order in the session.
+     * to_delete_users_table constructor.
+     * @param $uniqueid
+     * @param $users
+     * @param $sqlwhere
+     * @param $param
+     * @param $table string specifies the table where the information about the user should be retrieved from.
+     * @throws \coding_exception
      */
-    public function __construct($uniqueid, $users, $sqlwhere, $param) {
+    public function __construct($uniqueid, $users, $sqlwhere, $param, $table) {
         parent::__construct($uniqueid);
 
         // Define the list of columns to show.
@@ -52,7 +56,7 @@ class users_table extends \table_sql {
         if ($sqlwhere != null && $sqlwhere != '') {
             $where .= ' AND ' . $sqlwhere;
         }
-        $this->set_sql('id, username, lastaccess, ' . get_all_user_name_fields(true), '{user}', $where, $param);
+        $this->set_sql('id, username, lastaccess, ' . get_all_user_name_fields(true), '{' . $table . '}', $where, $param);
     }
     /**
      * This function is called for each data row to change the lastaccess to a datetime format

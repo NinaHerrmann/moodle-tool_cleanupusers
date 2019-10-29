@@ -57,16 +57,19 @@ class userstatus_userstatuswwu_generator extends testing_data_generator {
         $data['e_user03'] = $user;
 
         $unixoneyearago = $mytimestamp - 31536000;
-        $userlongnotloggedin = $generator->create_user(array('username' => 'user', 'lastaccess' => $unixoneyearago, 'auth' => 'ldap'));
+        $userlongnotloggedin = $generator->create_user(array('username' => 'user', 'lastaccess' => $unixoneyearago,
+            'auth' => 'ldap'));
         $data['user'] = $userlongnotloggedin;
 
         $unixfifteendaysago = $mytimestamp - 1296000;
-        $userfifteendays = $generator->create_user(array('username' => 'userm', 'lastaccess' => $unixfifteendaysago, 'auth' => 'ldap'));
+        $userfifteendays = $generator->create_user(array('username' => 'userm', 'lastaccess' => $unixfifteendaysago,
+            'auth' => 'ldap'));
         $data['userm'] = $userfifteendays;
 
         $unixoneyearnintydays = $mytimestamp - 39528000;
 
-        $userarchived = $generator->create_user(array('username' => 's_other07', 'lastaccess' => $mytimestamp, 'suspended' => 1, 'auth' => 'ldap'));
+        $userarchived = $generator->create_user(array('username' => 's_other07', 'lastaccess' => $mytimestamp, 'suspended' => 1,
+            'auth' => 'ldap'));
         $DB->insert_record_raw('tool_cleanupusers', array('id' => $userarchived->id, 'archived' => true,
             'timestamp' => $unixoneyearnintydays), true, false, true);
         $DB->insert_record_raw('tool_cleanupusers_archive', array('id' => $userarchived->id, 'suspended' => 1,
@@ -83,7 +86,8 @@ class userstatus_userstatuswwu_generator extends testing_data_generator {
         $user = $generator->create_user(array('username' => 'adminuser', 'lastaccess' => $unixoneyearnintydays, 'auth' => 'ldap'));
         $data['adminuser'] = $user;
 
-        $user = $generator->create_user(array('username' => 'manuallogin', 'lastaccess' => $unixoneyearnintydays, 'auth' => 'manual'));
+        $user = $generator->create_user(array('username' => 'manuallogin', 'lastaccess' => $unixoneyearnintydays,
+            'auth' => 'manual'));
         $data['manuallogin'] = $user;
 
         $user = $generator->create_user(array('username' => 'with@sign', 'lastaccess' => $unixoneyearnintydays, 'auth' => 'ldap'));

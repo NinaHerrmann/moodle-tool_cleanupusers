@@ -114,13 +114,13 @@ class userstatus_userstatuswwu_testcase extends advanced_testcase {
         $this->assertArrayNotHasKey($data['d_me09']->id, $returnneverloggedin);
         $this->assertArrayNotHasKey($data['d_me09']->id, $returntoactivate);
 
-        // manuallogin has the authentification method manual. Therefore he/she is not considered.
+        // The user manuallogin has the authentification method manual. Therefore he/she is not considered.
         $this->assertArrayNotHasKey($data['manuallogin']->id, $returndelete);
         $this->assertArrayNotHasKey($data['manuallogin']->id, $returnsuspend);
         $this->assertArrayNotHasKey($data['manuallogin']->id, $returnneverloggedin);
         $this->assertArrayNotHasKey($data['manuallogin']->id, $returntoactivate);
 
-        // with@sign has a @ sign in the username and is therefore ignored.
+        // The user with@sign has a @ sign in the username and is therefore ignored.
         $this->assertArrayNotHasKey($data['with@sign']->id, $returndelete);
         $this->assertArrayNotHasKey($data['with@sign']->id, $returnsuspend);
         $this->assertArrayNotHasKey($data['with@sign']->id, $returnneverloggedin);
