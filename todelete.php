@@ -67,7 +67,7 @@ if (empty($deletearray)) {
     $userfilter->display_add();
     $userfilter->display_active();
     list($sql, $param) = $userfilter->get_sql_filter();
-    $deletetable = new \tool_cleanupusers\table\users_table('tool_cleanupusers_todelete_table', $deletearray, $sql, $param);
+    $deletetable = new \tool_cleanupusers\table\to_delete_users_table('tool_cleanupusers_todelete_table', $deletearray, $sql, $param);
     $deletetable->define_baseurl($PAGE->url);
     $deletetable->out(20, false);
 }
