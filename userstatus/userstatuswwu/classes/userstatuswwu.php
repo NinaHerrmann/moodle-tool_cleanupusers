@@ -199,7 +199,7 @@ class userstatuswwu implements userstatusinterface {
                             $zivuserarray[$currentname] = true;
                             break;
                         default:
-                            continue;
+                            // Do nothing in case the group has any other name.
                     }
                 } else {
                     // In case other groups are used...
@@ -250,7 +250,8 @@ class userstatuswwu implements userstatusinterface {
         $sql = 'SELECT u.id, u.lastaccess, u.deleted, u.suspended, u.username
         FROM {user} u
         LEFT JOIN {tool_cleanupusers} t_u ON u.id = t_u.id
-        WHERE t_u.id IS NULL AND u.lastaccess=0 AND u.deleted=0 AND u.firstname!=\'Anonym\' AND u.auth=:method AND u.username NOT LIKE :emailsign';
+        WHERE t_u.id IS NULL AND u.lastaccess=0 AND u.deleted=0 AND u.firstname!=\'Anonym\' AND u.auth=:method
+        AND u.username NOT LIKE :emailsign';
         $params['emailsign'] = '%@%';
         $params['method'] = 'ldap';
         $users = $DB->get_records_sql($sql, $params);
@@ -291,6 +292,7 @@ class userstatuswwu implements userstatusinterface {
             if (!empty($moodleuser->timestamp) && !array_key_exists($moodleuser->username, $this->zivmemberlist)) {
                 // In case the user is not in the zivmemberlist and was suspended for longer than one year he/she ...
                 // ... is supposed to be deleted.
+                // The seconds are for leap years.
                 if ($moodleuser->timestamp < $timestamp - 31622400) {
                     $datauser = new archiveduser($moodleuser->id, $moodleuser->suspended, $moodleuser->lastaccess,
                             $moodleuser->username, $moodleuser->deleted);
