@@ -72,7 +72,6 @@ class archive_user_task extends scheduled_task {
         $archivearray = $userstatuschecker->get_to_suspend();
         $reactivatearray = $userstatuschecker->get_to_reactivate();
         $arraytodelete = $userstatuschecker->get_to_delete();
-
         $suspendresult = $this->change_user_deprovisionstatus($archivearray, 'suspend');
         $unabletoarchive = $suspendresult['failures'];
         $userarchived = $suspendresult['countersuccess'];

@@ -35,12 +35,15 @@ class never_logged_in_table extends \table_sql
     public function __construct($users, $sqlwhere, $param) {
         parent::__construct('tool_cleanupusers_never_logged_in_table');
         // Define the list of columns to show.
-        $columns = array('id', 'username', 'fullname', 'suspended', 'deleted');
+        $columns = array('id', 'username', 'fullname', 'lastaccess', 'suspended', 'deleted', 'deleted2', 'willdeleted');
         $this->define_columns($columns);
 
         // Define the titles of columns to show in header.
         $headers = array(get_string('id', 'tool_cleanupusers'), get_string('Neverloggedin', 'tool_cleanupusers'),
-            get_string('fullname'), get_string('Archived', 'tool_cleanupusers'), 'Archive');
+            get_string('fullname'), get_string('lastaccess', 'tool_cleanupusers'),
+            get_string('Archived', 'tool_cleanupusers'), get_string('Archive', 'tool_cleanupusers') . '/'
+            . get_string('Reactivate', 'tool_cleanupusers'),
+            get_string('Deleted', 'tool_cleanupusers'), get_string('Delete', 'tool_cleanupusers'));
         $this->define_headers($headers);
 
         $idsasstring = '';
@@ -54,7 +57,7 @@ class never_logged_in_table extends \table_sql
             $where .= ' AND ' . $sqlwhere;
         }
 
-        $this->set_sql('id, username, lastaccess, suspended, ' . get_all_user_name_fields(true), '{user}', $where, $param);
+        $this->set_sql('id, username, lastaccess, suspended,' . get_all_user_name_fields(true), '{user}', $where, $param);
     }
 
     /**
@@ -67,7 +70,34 @@ class never_logged_in_table extends \table_sql
     public function col_suspended($row) {
         return $row->suspended ? get_string('yes') : get_string('no');
     }
+    /**
+     * This function is called for each data row to change the lastaccess to a datetime format
+     * @return string return processed value. Return NULL if no change has
+     *     been made.
+     */
+    public function other_cols($colname, $value) {
+        if ($colname == 'lastaccess') {
+            return gmdate("Y-m-d H:i:s", $value->lastaccess);
+        }
+        if ($colname == 'deleted2') {
+            if (!isset($value->deleted)) {
+                return get_string('no');
+            }
+            return $value->deleted ? get_string('yes') : get_string('no');
+        }
+        if ($colname == 'willdeleted') {
+            global $OUTPUT;
+            // If the data is being downloaded than we don't want to show HTML.
+            if (!isset($value->deleted) || $value->deleted == 0) {
+                $url = new \moodle_url('/admin/tool/cleanupusers/handleuser.php', ['userid' => $value->id, 'action' => 'delete']);
 
+                return \html_writer::link($url,
+                    $OUTPUT->pix_icon('t/removecontact', get_string('deleteuser', 'tool_cleanupusers'), 'moodle',
+                        ['class' => "imggroup-" . $value->id]));
+            }
+            // TODO handle else user who are manually deleted. Research can moodle restore those users.
+        }
+    }
     /**
      * This function is called for each data row to allow processing of the
      * possible actions
@@ -88,7 +118,7 @@ class never_logged_in_table extends \table_sql
             $url = new \moodle_url('/admin/tool/cleanupusers/handleuser.php', ['userid' => $values->id, 'action' => 'reactivate']);
 
             return \html_writer::link($url,
-                $OUTPUT->pix_icon('t/reload', get_string('hideuser', 'tool_cleanupusers'), 'moodle',
+                $OUTPUT->pix_icon('t/reload', get_string('showuser', 'tool_cleanupusers'), 'moodle',
                     ['class' => "imggroup-" . $values->id]));
         }
     }
