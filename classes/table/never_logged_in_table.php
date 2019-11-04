@@ -40,9 +40,9 @@ class never_logged_in_table extends \table_sql
 
         // Define the titles of columns to show in header.
         $headers = array(get_string('id', 'tool_cleanupusers'), get_string('Neverloggedin', 'tool_cleanupusers'),
-            get_string('fullname'), get_string('lastaccess','tool_cleanupusers'),
+            get_string('fullname'), get_string('lastaccess', 'tool_cleanupusers'),
             get_string('Archived', 'tool_cleanupusers'), get_string('Archive', 'tool_cleanupusers') . '/'
-        . get_string('Reactivate', 'tool_cleanupusers'),
+            . get_string('Reactivate', 'tool_cleanupusers'),
             get_string('Deleted', 'tool_cleanupusers'), get_string('Delete', 'tool_cleanupusers'));
         $this->define_headers($headers);
 
@@ -80,7 +80,7 @@ class never_logged_in_table extends \table_sql
             return gmdate("Y-m-d H:i:s", $value->lastaccess);
         }
         if ($colname == 'deleted2') {
-            if (!isset($value->deleted)){
+            if (!isset($value->deleted)) {
                 return get_string('no');
             }
             return $value->deleted ? get_string('yes') : get_string('no');
@@ -94,9 +94,8 @@ class never_logged_in_table extends \table_sql
                 return \html_writer::link($url,
                     $OUTPUT->pix_icon('t/removecontact', get_string('deleteuser', 'tool_cleanupusers'), 'moodle',
                         ['class' => "imggroup-" . $value->id]));
-            } else {
-                // TODO handle user who are manually deleted. Research can moodle restore those users.
             }
+            // TODO handle else user who are manually deleted. Research can moodle restore those users.
         }
     }
     /**
