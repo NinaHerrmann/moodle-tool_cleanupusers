@@ -60,7 +60,7 @@ if ($config) {
 
 // Request arrays from the sub-plugin.
 $neverloggedinarray = $userstatuschecker->get_never_logged_in();
-
+$allusers = get_users();
 if (empty($neverloggedinarray)) {
     echo "Currently no users have never logged in.";
 } else {
@@ -68,7 +68,7 @@ if (empty($neverloggedinarray)) {
     $userfilter->display_add();
     $userfilter->display_active();
     list($sql, $param) = $userfilter->get_sql_filter();
-    $neverloggedintable = new \tool_cleanupusers\table\never_logged_in_table($neverloggedinarray, $sql, $param);
+    $neverloggedintable = new \tool_cleanupusers\table\never_logged_in_table($allusers, $sql, $param);
     $neverloggedintable->define_baseurl($PAGE->url);
     $neverloggedintable->out(20, false);
 }
